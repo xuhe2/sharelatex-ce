@@ -1,0 +1,64 @@
+services:
+    sharelatex:
+        restart: always
+        # image: sharelatex/sharelatex:4.2.3
+        image: xuhe-sharelatex-ce:latest # custom image(include new texlive)
+        container_name: leaf-sharelatex
+        depends_on:
+            mongo:
+                condition: service_healthy
+            redis:
+                condition: service_started
+        ports:
+            - 8008:80
+        links:
+            - mongo
+            - redis
+        stop_grace_period: 60s
+        volumes:
+            - ./sharelatex:/var/lib/sharelatex
+        environment:
+            SHARELATEX_APP_NAME: XuHe's Overleaf
+
+            SHARELATEX_MONGO_URL: mongodb://mongo/sharelatex
+
+            # Same property, unfortunately with different names in
+            # different locations
+            SHARELATEX_REDIS_HOST: redis
+            REDIS_HOST: redis
+
+            ENABLED_LINKED_FILE_TYPES: "project_file,project_output_file"
+
+            # Enables Thumbnail generation using ImageMagick
+            ENABLE_CONVERSIONS: "true"
+
+            # Disables email confirmation requirement
+            EMAIL_CONFIRMATION_DISABLED: "true"
+
+            # temporary fix for LuaLaTex compiles
+            # see https://github.com/overleaf/overleaf/issues/695
+            TEXMFVAR: /var/lib/sharelatex/tmp/texmf-var
+
+    mongo:
+        restart: always
+        image: mongo:4.4
+        container_name: leaf-mongo
+        command: "--replSet overleaf"
+        expose:
+            - 27017
+        volumes:
+            - ./mongo:/data/db
+        healthcheck:
+            test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
+            interval: 10s
+            timeout: 10s
+            retries: 5
+
+    redis:
+        restart: always
+        image: redis:6.2
+        container_name: leaf-redis
+        expose:
+            - 6379
+        volumes:
+            - ./redis:/data
