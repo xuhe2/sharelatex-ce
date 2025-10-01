@@ -2,6 +2,24 @@
 
 这是一个针对 **Overleaf 社区版 (原 ShareLaTeX)** 的私有化部署项目。
 
+⚠️ 关于兼容性和版本的重要说明
+为了确保最大的硬件兼容性（尤其是针对不带 AVX 指令集的老旧 CPU），本项目使用的 ShareLaTeX 基础镜像和 MongoDB 均是旧版本。
+
+<details>
+<summary><b>💡 适用于支持 AVX 指令集的硬件（推荐升级）</b></summary>
+
+为了兼容旧硬件，本项目默认使用老版本镜像。如果您确认您的部署环境**支持 AVX 指令集**，强烈建议您修改配置，以获取最新的特性、性能和安全更新：
+
+1.  **基础镜像版本升级：**
+    * 您可以修改 `sharelatex-ce` 文件夹下的 `Dockerfile`，将 `FROM` 指令的基础镜像替换为最新的官方 `sharelatex/sharelatex:latest` 标签。
+
+2.  **MongoDB 版本升级：**
+    * 修改您的 `docker-compose.yaml` 文件，将 MongoDB 服务（例如 `leaf-mongo`）的镜像版本替换为 `6.0` 或更高版本，以确保使用最新的私有化部署方案。
+
+通过上述修改，您可以享受到最新的 Overleaf/ShareLaTeX 镜像所带来的全部特性和性能优化。
+
+</details>
+
 ### 🚀 项目特色
 
 | 特性 | 描述 |
@@ -21,6 +39,8 @@
 ```bash
 docker build -t xuhe-sharelatex-ce .
 ```
+
+> Dockerfile在`sharelatex-ce`文件夹下面
 
 -----
 
