@@ -1,5 +1,7 @@
 # 📖 Overleaf Private Deployment (Full TeX Live Version)
 
+[English Version (英文版)](README_en.md) | [简体中文版](README.md)
+
 This is a private deployment project for **Overleaf Community Edition (formerly ShareLaTeX)**.
 
 ⚠️ Important Note on Compatibility and Versions
