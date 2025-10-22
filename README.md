@@ -22,6 +22,17 @@
 
 </details>
 
+---
+
+🏷️ 分支命名规范（版本管理）
+本项目使用 Git 分支来管理基于不同官方 ShareLaTeX 版本构建的镜像。
+
+分支名：直接对应所基于的官方 sharelatex/sharelatex 镜像版本号。
+
+示例：4.2.3 分支：基于 FROM sharelatex/sharelatex:4.2.3 构建。
+
+---
+
 ### 🚀 项目特色
 
 | 特性 | 描述 |

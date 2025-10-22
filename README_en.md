@@ -22,6 +22,17 @@ This modification allows you to enjoy all the features and performance improveme
 
 </details>
 
+---
+
+🏷️ Branch Naming Conventions (Version Management)
+This project uses Git branches to manage images built based on different official ShareLaTeX versions.
+
+Branch names: directly correspond to the official sharelatex/sharelatex image version number.
+
+Example: 4.2.3 branch: built based on FROM sharelatex/sharelatex:4.2.3.
+
+---
+
 ### 🚀 Project Features
 
 | Features | Description |
