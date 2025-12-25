@@ -2,23 +2,32 @@
 
 [English Version (英文版)](README_en.md) | [简体中文版](README.md)
 
+## 🆕 重要更新
+
+**新增 `6` 分支！**  
+- 专门适配最新的 `sharelatex:6` 版本
+- 提供给支持 AVX 指令集的机器使用
+- 包含最新的特性、性能优化和安全更新
+
 这是一个针对 **Overleaf 社区版 (原 ShareLaTeX)** 的私有化部署项目。
 
 ⚠️ 关于兼容性和版本的重要说明
-为了确保最大的硬件兼容性（尤其是针对不带 AVX 指令集的老旧 CPU），本项目使用的 ShareLaTeX 基础镜像和 MongoDB 均是旧版本。
+为了确保最大的硬件兼容性（尤其是针对不带 AVX 指令集的老旧 CPU），master 分支默认使用经过优化的旧版本镜像。
 
 <details>
-<summary><b>💡 适用于支持 AVX 指令集的硬件（推荐升级）</b></summary>
+<summary><b>💡 适用于支持 AVX 指令集的硬件（推荐使用 `6` 分支）</b></summary>
 
-为了兼容旧硬件，本项目默认使用老版本镜像。如果您确认您的部署环境**支持 AVX 指令集**，强烈建议您修改配置，以获取最新的特性、性能和安全更新：
+如果您确认您的部署环境**支持 AVX 指令集**，强烈建议您使用新增的 `6` 分支，以获取最新的 ShareLaTeX 6 版本及相关特性：
 
-1.  **基础镜像版本升级：**
-    * 您可以修改 `sharelatex-ce` 文件夹下的 `Dockerfile`，将 `FROM` 指令的基础镜像替换为最新的官方 `sharelatex/sharelatex:latest` 标签。
+1.  **切换到 `6` 分支：**
+    * 执行 `git checkout 6` 命令切换到专门适配 ShareLaTeX 6 的分支
+    * 该分支默认使用 `sharelatex/sharelatex:6` 作为基础镜像
 
-2.  **MongoDB 版本升级：**
-    * 修改您的 `docker-compose.yaml` 文件，将 MongoDB 服务（例如 `leaf-mongo`）的镜像版本替换为 `6.0` 或更高版本，以确保使用最新的私有化部署方案。
+2.  **使用默认配置：**
+    * `6` 分支的 `docker-compose.yaml` 已预先配置好最新的依赖版本
+    * 直接执行 `docker-compose up -d` 即可启动包含 ShareLaTeX 6 的完整服务
 
-通过上述修改，您可以享受到最新的 Overleaf/ShareLaTeX 镜像所带来的全部特性和性能优化。
+通过使用 `6` 分支，您可以享受到最新的 Overleaf/ShareLaTeX 6 镜像所带来的全部特性和性能优化。
 
 </details>
 
@@ -29,7 +38,9 @@
 
 分支名：直接对应所基于的官方 sharelatex/sharelatex 镜像版本号。
 
-示例：4.2.3 分支：基于 FROM sharelatex/sharelatex:4.2.3 构建。
+- `master` 分支：默认分支，使用优化的旧版本镜像以兼容不带 AVX 指令集的老旧 CPU
+- `6` 分支：新增分支，专门适配 `sharelatex:6` 版本，提供给支持 AVX 指令集的机器使用
+- 示例：4.2.3 分支：基于 FROM sharelatex/sharelatex:4.2.3 构建
 
 ---
 
@@ -38,8 +49,9 @@
 | 特性 | 描述 |
 | :--- | :--- |
 | **完整 TeX Live** | 基于官方镜像构建，但集成了 **完整的 TeX Live** 包管理器，避免因缺少宏包而编译失败。 |
-| **无 AVX 兼容** | 专门优化，**兼容不带 AVX 指令集** 的老旧或特定 CPU 架构的主机环境，兼容性极佳。 |
+| **无 AVX 兼容** | master 分支专门优化，**兼容不带 AVX 指令集** 的老旧或特定 CPU 架构的主机环境，兼容性极佳。 |
 | **Docker 部署** | 使用 Docker Compose 一键启动所有必需服务（Overleaf、MongoDB、Redis）。 |
+| **多版本分支支持** | 提供不同分支以适配不同版本的 ShareLaTeX，满足不同用户的需求。 |
 
 -----
 
@@ -81,6 +93,7 @@ docker-compose up -d
 ```bash
 docker exec leaf-mongo mongo --eval "rs.initiate({ _id: \"overleaf\", members: [ { _id: 0, host: \"mongo:27017\" } ] })"
 ```
+- 注意! 这个指令在5.0及以上的版本中不同, 需要查看对应的支持分支的文档.
 
 如果出现连接问题或配置未能立即生效，请重启 ShareLaTeX 服务：
 
