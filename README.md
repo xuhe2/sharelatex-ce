@@ -2,23 +2,31 @@
 
 [English Version (英文版)](README_en.md) | [简体中文版](README.md)
 
+## 🆕 重要更新
+
+**已适配 ShareLaTeX 6 版本！**  
+- 升级了基础镜像至 `sharelatex/sharelatex:6`
+- MongoDB 版本升级至 8.0
+- Redis 版本升级至 7
+- 优化了构建流程和依赖管理
+
 这是一个针对 **Overleaf 社区版 (原 ShareLaTeX)** 的私有化部署项目。
 
 ⚠️ 关于兼容性和版本的重要说明
-为了确保最大的硬件兼容性（尤其是针对不带 AVX 指令集的老旧 CPU），本项目使用的 ShareLaTeX 基础镜像和 MongoDB 均是旧版本。
+为了确保最大的硬件兼容性（尤其是针对不带 AVX 指令集的老旧 CPU），本项目使用的 ShareLaTeX 基础镜像和 MongoDB 均是经过优化的版本。
 
 <details>
 <summary><b>💡 适用于支持 AVX 指令集的硬件（推荐升级）</b></summary>
 
-为了兼容旧硬件，本项目默认使用老版本镜像。如果您确认您的部署环境**支持 AVX 指令集**，强烈建议您修改配置，以获取最新的特性、性能和安全更新：
+为了兼容旧硬件，本项目默认使用优化的镜像。如果您确认您的部署环境**支持 AVX 指令集**，可以修改配置以获取更多定制化选项：
 
-1.  **基础镜像版本升级：**
-    * 您可以修改 `sharelatex-ce` 文件夹下的 `Dockerfile`，将 `FROM` 指令的基础镜像替换为最新的官方 `sharelatex/sharelatex:latest` 标签。
+1.  **基础镜像版本调整：**
+    * 您可以修改 `sharelatex-ce` 文件夹下的 `Dockerfile`，将 `FROM` 指令的基础镜像替换为您需要的官方 `sharelatex/sharelatex` 版本标签。
 
-2.  **MongoDB 版本升级：**
-    * 修改您的 `docker-compose.yaml` 文件，将 MongoDB 服务（例如 `leaf-mongo`）的镜像版本替换为 `6.0` 或更高版本，以确保使用最新的私有化部署方案。
+2.  **MongoDB 版本调整：**
+    * 修改您的 `docker-compose.yaml` 文件，将 MongoDB 服务（例如 `leaf-mongo`）的镜像版本替换为您需要的版本，当前默认使用 8.0 版本。
 
-通过上述修改，您可以享受到最新的 Overleaf/ShareLaTeX 镜像所带来的全部特性和性能优化。
+通过上述修改，您可以根据需要调整部署环境。
 
 </details>
 
@@ -40,6 +48,7 @@
 | **完整 TeX Live** | 基于官方镜像构建，但集成了 **完整的 TeX Live** 包管理器，避免因缺少宏包而编译失败。 |
 | **无 AVX 兼容** | 专门优化，**兼容不带 AVX 指令集** 的老旧或特定 CPU 架构的主机环境，兼容性极佳。 |
 | **Docker 部署** | 使用 Docker Compose 一键启动所有必需服务（Overleaf、MongoDB、Redis）。 |
+| **适配 ShareLaTeX 6** | 已更新至最新的 ShareLaTeX 6 版本，支持最新特性和改进。 |
 
 -----
 

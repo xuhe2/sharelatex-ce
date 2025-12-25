@@ -2,23 +2,31 @@
 
 [English Version (英文版)](README_en.md) | [简体中文版](README.md)
 
+## 🆕 Important Update
+
+**Now compatible with ShareLaTeX 6!**  
+- Upgraded base image to `sharelatex/sharelatex:6`
+- MongoDB version upgraded to 8.0
+- Redis version upgraded to 7
+- Optimized build process and dependency management
+
 This is a private deployment project for **Overleaf Community Edition (formerly ShareLaTeX)**.
 
 ⚠️ Important Note on Compatibility and Versions
-To ensure maximum hardware compatibility (especially for older CPUs without AVX instruction sets), this project uses older versions of the ShareLaTeX base image and MongoDB.
+To ensure maximum hardware compatibility (especially for older CPUs without AVX instruction sets), this project uses optimized versions of the ShareLaTeX base image and MongoDB.
 
 <details>
-<summary><b>💡 For hardware supporting AVX instruction sets (upgrade recommended)</b></summary>
+<summary><b>💡 For hardware supporting AVX instruction sets (recommended)</b></summary>
 
-To ensure compatibility with older hardware, this project uses older versions of the image by default. If you confirm that your deployment environment **supports AVX instruction sets**, we strongly recommend that you modify your configuration to get the latest features, performance, and security updates:
+To ensure compatibility with older hardware, this project uses optimized images by default. If you confirm that your deployment environment **supports AVX instruction sets**, you can modify the configuration for more customization options:
 
-1. **Base Image Version Upgrade:**
-* You can modify the `Dockerfile` in the `sharelatex-ce` folder to replace the base image in the `FROM` instruction with the latest official `sharelatex/sharelatex:latest` tag.
+1. **Base Image Version Adjustment:**
+    * You can modify the `Dockerfile` in the `sharelatex-ce` folder to replace the base image in the `FROM` instruction with the official `sharelatex/sharelatex` version tag you need.
 
-2. **MongoDB Version Upgrade:**
-* Modify your `docker-compose.yaml` file and replace the image version of the MongoDB service (e.g., `leaf-mongo`) with `6.0` or higher to ensure the latest private deployment solution.
+2. **MongoDB Version Adjustment:**
+    * Modify your `docker-compose.yaml` file to replace the image version of the MongoDB service (e.g., `leaf-mongo`) with the version you need. Currently, version 8.0 is used by default.
 
-This modification allows you to enjoy all the features and performance improvements of the latest Overleaf/ShareLaTeX images.
+With the above modifications, you can adjust the deployment environment according to your needs.
 
 </details>
 
@@ -40,6 +48,7 @@ Example: 4.2.3 branch: built based on FROM sharelatex/sharelatex:4.2.3.
 | **Full TeX Live** | Built based on the official image, but integrates the **Full TeX Live** package manager to avoid compilation failures due to missing macro packages. |
 | **No AVX Compatibility** | Optimized for compatibility with older or specific CPU architectures without the AVX instruction set, ensuring excellent compatibility. |
 | **Docker Deployment** | Use Docker Compose to start all required services (Overleaf, MongoDB, and Redis) in one click. |
+| **ShareLaTeX 6 Compatible** | Updated to the latest ShareLaTeX 6 version, supporting the latest features and improvements. |
 
 -----
 
@@ -79,7 +88,7 @@ In order for Overleaf to properly utilize advanced MongoDB features (such as rea
 <!-- end list -->
 
 ```bash
-docker exec leaf-mongo mongo --eval "rs.initiate({ _id: \"overleaf\", members: [ { _id: 0, host: \"mongo:27017\" } ] })"
+docker exec leaf-mongo mongosh --eval "rs.initiate({ _id: \"overleaf\", members: [ { _id: 0, host: \"mongo:27017\" } ] })"
 ```
 
 If there are connection issues or the configuration does not take effect immediately, restart the ShareLaTeX service:
