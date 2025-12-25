@@ -1,30 +1,32 @@
+# This for sharelatex >= 5.0 version
 services:
     sharelatex:
-        restart: always
-        # image: sharelatex/sharelatex:4.2.3
+        # image: sharelatex/sharelatex:latest
         image: xuhe-sharelatex-ce:latest # custom image(include new texlive)
         container_name: leaf-sharelatex
+        restart: unless-stopped
         depends_on:
             mongo:
                 condition: service_healthy
             redis:
-                condition: service_started
+                condition: service_started 
         ports:
-            - 8008:80
+            - "8008:80"
         links:
             - mongo
             - redis
         stop_grace_period: 60s
         volumes:
-            - ./sharelatex:/var/lib/sharelatex
+            - ./data/sharelatex:/var/lib/overleaf
+            - ./data/logs:/var/log/overleaf
         environment:
-            SHARELATEX_APP_NAME: XuHe's Overleaf
+            OVERLEAF_APP_NAME: XuHe's Overleaf
 
-            SHARELATEX_MONGO_URL: mongodb://mongo/sharelatex
+            OVERLEAF_MONGO_URL: mongodb://mongo/sharelatex
 
             # Same property, unfortunately with different names in
             # different locations
-            SHARELATEX_REDIS_HOST: redis
+            OVERLEAF_REDIS_HOST: redis
             REDIS_HOST: redis
 
             ENABLED_LINKED_FILE_TYPES: "project_file,project_output_file"
@@ -38,27 +40,25 @@ services:
             # temporary fix for LuaLaTex compiles
             # see https://github.com/overleaf/overleaf/issues/695
             TEXMFVAR: /var/lib/sharelatex/tmp/texmf-var
+        # env_file:
+        #     - overleaf.env
 
     mongo:
-        restart: always
-        image: mongo:4.4
+        image: mongo:8.0
         container_name: leaf-mongo
-        command: "--replSet overleaf"
-        expose:
-            - 27017
+        restart: unless-stopped
+        command: "--replSet overleaf" 
         volumes:
-            - ./mongo:/data/db
+            - ./data/mongo:/data/db
         healthcheck:
-            test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
+            test: echo 'db.stats().ok' | mongosh localhost:27017/test --quiet
             interval: 10s
             timeout: 10s
             retries: 5
 
     redis:
-        restart: always
-        image: redis:6.2
+        image: redis:7
         container_name: leaf-redis
-        expose:
-            - 6379
+        restart: unless-stopped
         volumes:
-            - ./redis:/data
+          - ./data/redis:/data

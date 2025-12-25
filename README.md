@@ -79,7 +79,7 @@ docker-compose up -d
 <!-- end list -->
 
 ```bash
-docker exec leaf-mongo mongo --eval "rs.initiate({ _id: \"overleaf\", members: [ { _id: 0, host: \"mongo:27017\" } ] })"
+docker exec leaf-mongo mongosh --eval "rs.initiate({ _id: \"overleaf\", members: [ { _id: 0, host: \"mongo:27017\" } ] })"
 ```
 
 如果出现连接问题或配置未能立即生效，请重启 ShareLaTeX 服务：
