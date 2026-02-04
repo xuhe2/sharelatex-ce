@@ -1,4 +1,4 @@
-FROM sharelatex/sharelatex:4.2.3
+FROM sharelatex/sharelatex:4.2.9
 
 RUN cd /tmp && \
     wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
