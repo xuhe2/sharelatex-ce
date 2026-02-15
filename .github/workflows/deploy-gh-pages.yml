@@ -1,0 +1,27 @@
+name: Deploy Website to GitHub Pages
+
+on:
+  push:
+    branches: [website-dev]  
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install and Build
+        # 使用 working-directory 指定到你的子文件夹执行命令
+        working-directory: ./landing-page 
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # 部署路径也要加上子文件夹的前缀
+          folder: landing-page/dist 
+          branch: gh-pages
+          # 这样会把 landing-page/dist 下的内容推送到 gh-pages 的根目录
