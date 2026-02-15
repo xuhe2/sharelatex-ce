@@ -2,7 +2,10 @@ name: Deploy Website to GitHub Pages
 
 on:
   push:
-    branches: [website-dev]  
+    branches: [website-dev]
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
