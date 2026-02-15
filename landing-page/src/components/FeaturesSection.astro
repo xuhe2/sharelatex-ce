@@ -1,0 +1,82 @@
+---
+const features = [
+  {
+    title: '完整 TeX Live',
+    description: '集成完整 TeX Live 包管理器，告别宏包缺失问题，支持所有常用 LaTeX 宏包和模板',
+    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+  },
+  {
+    title: '多版本分支',
+    description: 'master 分支兼容老旧 CPU（无 AVX 要求），6 分支支持最新 ShareLaTeX 6 版本',
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+  },
+  {
+    title: '无 AVX 兼容',
+    description: 'master 分支专门优化，支持不带 AVX 指令集的老旧或特定 CPU 架构',
+    icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z',
+  },
+  {
+    title: 'Docker 部署',
+    description: '使用 Docker Compose 一键启动所有必需服务，包括 MongoDB、Redis 和 ShareLaTeX',
+    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+  },
+  {
+    title: '完全开源',
+    description: '基于 Overleaf Community Edition，完全开源的自托管解决方案，数据完全自主可控',
+    icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+  },
+];
+---
+
+<section class="py-20 bg-white" id="features">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-latex-blue mb-4">
+        为什么选择 ShareLaTeX CE？
+      </h2>
+      <p class="text-academic-gray text-lg max-w-2xl mx-auto">
+        专为私有化部署场景优化，解决官方镜像的常见痛点
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {features.map((feature) => (
+        <div class="group p-6 rounded-xl border border-gray-200 hover:border-latex-blue/50 hover:shadow-lg transition-all duration-300 bg-white hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-lg bg-latex-blue/10 flex items-center justify-center mb-4 group-hover:bg-latex-blue/20 transition-colors">
+            <svg class="w-6 h-6 text-latex-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={feature.icon} />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-latex-blue mb-2">
+            {feature.title}
+          </h3>
+          <p class="text-academic-gray text-sm leading-relaxed">
+            {feature.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Version selection note -->
+    <div class="mt-12 max-w-3xl mx-auto p-6 bg-latex-blue/5 rounded-xl border border-latex-blue/20">
+      <div class="flex items-start gap-4">
+        <svg class="w-6 h-6 text-latex-blue flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <h4 class="font-bold text-latex-blue mb-2">如何选择版本？</h4>
+          <ul class="text-academic-gray text-sm space-y-1">
+            <li><strong>master 分支：</strong>兼容无 AVX 指令集的老旧 CPU，使用优化过的旧版本镜像</li>
+            <li><strong>6 分支：</strong>最新的 ShareLaTeX 6 版本，需要 AVX 支持，包含最新特性和性能优化</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .academic-gray {
+    color: #4a5568;
+  }
+</style>

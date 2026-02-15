@@ -1,0 +1,97 @@
+---
+const issues = [
+  {
+    title: '编译未生成 PDF',
+    description: 'LaTeX 编译器返回通用错误信息，表示编译流程中断或输出缺失',
+    solution: '通过切换编译器来刷新编译器内部状态',
+    steps: [
+      '在 Overleaf 编辑器中，将编译器切换到 XeLaTeX',
+      '点击编译（此时可能会成功或失败，不重要）',
+      '将编译器切换回 pdfLaTeX（或您需要的编译器）',
+      '再次编译',
+    ],
+  },
+];
+---
+
+<section class="py-20 bg-white" id="troubleshooting">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-latex-blue mb-4">
+        常见问题
+      </h2>
+      <p class="text-academic-gray text-lg max-w-2xl mx-auto">
+        遇到问题？这里有一些常见问题的解决方案
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      {issues.map((issue, index) => (
+        <div class="mb-8 p-8 rounded-xl border border-gray-200 hover:border-latex-blue/30 transition-colors">
+          <!-- Issue title -->
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-bold text-latex-blue mb-2">{issue.title}</h3>
+              <p class="text-academic-gray">{issue.description}</p>
+            </div>
+          </div>
+
+          <!-- Solution -->
+          <div class="bg-academic-light/50 rounded-lg p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h4 class="font-bold text-latex-blue">解决方案</h4>
+            </div>
+            <p class="text-academic-gray mb-4">{issue.solution}</p>
+
+            <!-- Steps -->
+            <ol class="space-y-3">
+              {issue.steps.map((step) => (
+                <li class="flex items-start gap-3">
+                  <span class="flex-shrink-0 w-6 h-6 rounded-full bg-latex-blue text-white text-sm flex items-center justify-center font-medium">
+                    {issue.steps.indexOf(step) + 1}
+                  </span>
+                  <span class="text-academic-gray pt-0.5">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      ))}
+
+      <!-- More help -->
+      <div class="text-center p-6 bg-latex-blue/5 rounded-xl border border-latex-blue/20">
+        <p class="text-academic-gray mb-4">
+          没有找到解决方案？查看更多资源
+        </p>
+        <a
+          href="https://github.com/xuhe2/sharelatex-ce/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-latex-blue hover:bg-latex-dark text-white font-medium px-6 py-3 rounded-lg transition-colors"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+          </svg>
+          GitHub Issues
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .academic-gray {
+    color: #4a5568;
+  }
+  .academic-light {
+    background-color: #f7fafc;
+  }
+</style>

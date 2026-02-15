@@ -1,0 +1,112 @@
+---
+import CodeBlock from './CodeBlock.astro';
+
+const steps = [
+  {
+    title: '选择版本',
+    description: '根据硬件支持情况选择合适版本的分支',
+    code: '# master 分支：兼容老旧 CPU（无 AVX 要求）\ngit checkout master\n\n# 或 6 分支：最新 ShareLaTeX 6 版本（需要 AVX 支持）\ngit checkout 6',
+    note: '不确定您的 CPU 是否支持 AVX？建议先尝试 master 分支。',
+  },
+  {
+    title: '克隆项目',
+    description: '从 GitHub 克隆仓库到本地',
+    code: 'git clone https://github.com/xuhe2/sharelatex-ce.git\ncd sharelatex-ce',
+  },
+  {
+    title: '构建镜像（可选）',
+    description: '构建包含完整 TeX Live 的自定义镜像',
+    code: '# Dockerfile 位于 sharelatex-ce/ 目录下\n# 构建过程约需 30 分钟\n\ndocker build -t xuhe-sharelatex-ce ./sharelatex-ce',
+    note: '可选步骤。如不构建，将使用预构建镜像。',
+    optional: true,
+  },
+  {
+    title: '启动服务',
+    description: '使用 Docker Compose 一键启动所有服务',
+    code: 'docker-compose up -d',
+  },
+  {
+    title: '配置数据库',
+    description: '初始化 MongoDB 副本集（仅需执行一次）',
+    code: 'docker exec leaf-mongo mongo --eval "rs.initiate({ _id: \\"overleaf\\", members: [{ _id: 0, host: \\"mongo:27017\\" }] })"',
+    note: '注意：ShareLaTeX 5.0 及以上版本的命令有所不同，请查看对应分支的文档。',
+  },
+  {
+    title: '重启并访问',
+    description: '重启 ShareLaTeX 刷新配置，然后访问您的私有化 Overleaf',
+    code: '# 重启 ShareLaTeX 以刷新配置\ndocker restart leaf-sharelatex\n\n# 访问 http://localhost:8008\n# 默认账户请在 README 中查看',
+  },
+];
+---
+
+<section class="py-20 bg-academic-light/50" id="quickstart">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-latex-blue mb-4">
+        快速开始
+      </h2>
+      <p class="text-academic-gray text-lg max-w-2xl mx-auto">
+        只需 6 个步骤，即可拥有自己的私有化 LaTeX 协作平台
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      <div class="space-y-8">
+        {steps.map((step, index) => (
+          <div class="flex gap-6">
+            <!-- Step number -->
+            <div class="flex-shrink-0">
+              <div class={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold ${step.optional ? 'bg-gray-200 text-gray-600' : 'bg-latex-blue text-white'}`}>
+                {index + 1}
+              </div>
+            </div>
+
+            <!-- Step content -->
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <h3 class="text-xl font-bold text-latex-blue">
+                  {step.title}
+                </h3>
+                {step.optional && (
+                  <span class="px-2 py-1 text-xs bg-gray-200 text-gray-600 rounded">可选</span>
+                )}
+              </div>
+              <p class="text-academic-gray mb-4">
+                {step.description}
+              </p>
+              <CodeBlock code={step.code} />
+              {step.note && (
+                <p class="mt-3 text-sm text-academic-gray flex items-start gap-2">
+                  <svg class="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {step.note}
+                </p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Additional info -->
+      <div class="mt-12 p-6 bg-latex-blue/5 rounded-xl border border-latex-blue/20">
+        <h4 class="font-bold text-latex-blue mb-3">注意事项</h4>
+        <ul class="text-academic-gray space-y-2 text-sm">
+          <li>• 确保已安装 Docker 和 Docker Compose</li>
+          <li>• 首次启动可能需要较长时间来下载镜像</li>
+          <li>• 如需构建自定义镜像，请确保网络畅通（需下载 TeX Live）</li>
+          <li>• 详细配置说明请参考 <a href="https://github.com/xuhe2/sharelatex-ce" target="_blank" rel="noopener noreferrer" class="text-latex-light hover:underline">GitHub 仓库</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .academic-light {
+    background-color: #f7fafc;
+  }
+  .academic-gray {
+    color: #4a5568;
+  }
+</style>
