@@ -7,5 +7,6 @@ export default defineConfig({
   site: 'https://xuhe2.github.io/sharelatex-ce/',
   build: {
     format: 'directory',
+    assets: 'assets',
   },
 });
